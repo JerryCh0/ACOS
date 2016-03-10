@@ -1,0 +1,391 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\fmodern\fcharset0 Courier;\f2\fmodern\fcharset0 Courier-Oblique;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue233;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl440\sa298\partightenfactor0
+
+\f0\b\fs36 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 2 nm\
+\pard\pardeftab720\sl280\sa240\partightenfactor0
+
+\b0\fs24 \cf2 \
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f1 \cf2      \
+     nm [-A|-o|--print-file-name] [-a|--debug-syms]\
+        [-B|--format=bsd] [-C|--demangle[=
+\f2\i style
+\f1\i0 ]]\
+        [-D|--dynamic] [-f
+\f2\i format
+\f1\i0 |--format=
+\f2\i format
+\f1\i0 ]\
+        [-g|--extern-only] [-h|--help]\
+        [-l|--line-numbers] [-n|-v|--numeric-sort]\
+        [-P|--portability] [-p|--no-sort]\
+        [-r|--reverse-sort] [-S|--print-size]\
+        [-s|--print-armap] [-t 
+\f2\i radix
+\f1\i0 |--radix=
+\f2\i radix
+\f1\i0 ]\
+        [-u|--undefined-only] [-V|--version]\
+        [-X 32_64] [--defined-only] [--no-demangle]\
+        [--plugin 
+\f2\i name
+\f1\i0 ] [--size-sort] [--special-syms]\
+        [--synthetic] [--target=
+\f2\i bfdname
+\f1\i0 ]\
+        [
+\f2\i objfile
+\f1\i0 ...]\
+     \
+\pard\pardeftab720\sl280\sa240\partightenfactor0
+
+\f0 \cf2 gnu 
+\f1 nm
+\f0  lists the symbols from object files 
+\i objfile
+\i0\fs20 ...
+\fs24 . If no object files are listed as arguments, 
+\f1 nm
+\f0  assumes the file 
+\f1 a.out
+\f0 .\
+For each symbol, 
+\f1 nm
+\f0  shows:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl280\partightenfactor0
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 The symbol value, in the radix selected by options (see below), or hexadecimal by default.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 The symbol type. At least the following types are used; others are, as well, depending on the object file format. If lowercase, the symbol is usually local; if uppercase, the symbol is global (external). There are however a few lowercase symbols that are shown for special global symbols (
+\f1 u
+\f0 , 
+\f1 v
+\f0  and 
+\f1 w
+\f0 ).
+\f1 A
+\f0 \uc0\u8232 The symbol's value is absolute, and will not be changed by further linking. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 B
+\f0 \uc0\u8232 
+\f1 b
+\f0 \uc0\u8232 The symbol is in the uninitialized data section (known as BSS). \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 C
+\f0 \uc0\u8232 The symbol is common. Common symbols are uninitialized data. When linking, multiple common symbols may appear with the same name. If the symbol is defined anywhere, the common symbols are treated as undefined references. For more details on common symbols, see the discussion of \'96warn-common in {\field{\*\fldinst{HYPERLINK "https://sourceware.org/binutils/docs/ld/Options.html#Options"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 Linker options}}. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 D
+\f0 \uc0\u8232 
+\f1 d
+\f0 \uc0\u8232 The symbol is in the initialized data section. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 G
+\f0 \uc0\u8232 
+\f1 g
+\f0 \uc0\u8232 The symbol is in an initialized data section for small objects. Some object file formats permit more efficient access to small data objects, such as a global int variable as opposed to a large global array. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 i
+\f0 \uc0\u8232 For PE format files this indicates that the symbol is in a section specific to the implementation of DLLs. For ELF format files this indicates that the symbol is an indirect function. This is a GNU extension to the standard set of ELF symbol types. It indicates a symbol which if referenced by a relocation does not evaluate to its address, but instead must be invoked at runtime. The runtime execution will then return the value to be used in the relocation. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 I
+\f0 \uc0\u8232 The symbol is an indirect reference to another symbol. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 N
+\f0 \uc0\u8232 The symbol is a debugging symbol. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 p
+\f0 \uc0\u8232 The symbols is in a stack unwind section. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 R
+\f0 \uc0\u8232 
+\f1 r
+\f0 \uc0\u8232 The symbol is in a read only data section. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 S
+\f0 \uc0\u8232 
+\f1 s
+\f0 \uc0\u8232 The symbol is in an uninitialized data section for small objects. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 T
+\f0 \uc0\u8232 
+\f1 t
+\f0 \uc0\u8232 The symbol is in the text (code) section. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 U
+\f0 \uc0\u8232 The symbol is undefined. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 u
+\f0 \uc0\u8232 The symbol is a unique global symbol. This is a GNU extension to the standard set of ELF symbol bindings. For such a symbol the dynamic linker will make sure that in the entire process there is just one symbol with this name and type in use. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 V
+\f0 \uc0\u8232 
+\f1 v
+\f0 \uc0\u8232 The symbol is a weak object. When a weak defined symbol is linked with a normal defined symbol, the normal defined symbol is used with no error. When a weak undefined symbol is linked and the symbol is not defined, the value of the weak symbol becomes zero with no error. On some systems, uppercase indicates that a default value has been specified. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 W
+\f0 \uc0\u8232 
+\f1 w
+\f0 \uc0\u8232 The symbol is a weak symbol that has not been specifically tagged as a weak object symbol. When a weak defined symbol is linked with a normal defined symbol, the normal defined symbol is used with no error. When a weak undefined symbol is linked and the symbol is not defined, the value of the symbol is determined in a system-specific manner without error. On some systems, uppercase indicates that a default value has been specified. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 -
+\f0 \uc0\u8232 The symbol is a stabs symbol in an a.out object file. In this case, the next values printed are the stabs other field, the stabs desc field, and the stab type. Stabs symbols are used to hold debugging information. \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f1 ?
+\f0 \uc0\u8232 The symbol type is unknown, or object file format specific.\u8232 \u8232 \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 The symbol name.\
+\pard\pardeftab720\sl280\sa240\partightenfactor0
+\cf2 The long and short forms of options, shown here as alternatives, are equivalent.\
+\pard\pardeftab720\sl280\partightenfactor0
+
+\f1 \cf2 -A
+\f0 \
+
+\f1 -o
+\f0 \
+
+\f1 --print-file-name
+\f0 \
+Precede each symbol by the name of the input file (or archive member) in which it was found, rather than identifying the input file once only, before all of its symbols. \
+
+\f1 -a
+\f0 \
+
+\f1 --debug-syms
+\f0 \
+Display all symbols, even debugger-only symbols; normally these are not listed. \
+
+\f1 -B
+\f0 \
+The same as 
+\f1 --format=bsd
+\f0  (for compatibility with the MIPS 
+\f1 nm
+\f0 ). \
+
+\f1 -C
+\f0 \
+
+\f1 --demangle[=
+\f2\i style
+\f1\i0 ]
+\f0 \
+Decode (
+\i demangle
+\i0 ) low-level symbol names into user-level names. Besides removing any initial underscore prepended by the system, this makes C++ function names readable. Different compilers have different mangling styles. The optional demangling style argument can be used to choose an appropriate demangling style for your compiler. See {\field{\*\fldinst{HYPERLINK "https://sourceware.org/binutils/docs/binutils/c_002b_002bfilt.html#c_002b_002bfilt"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 c++filt}}, for more information on demangling. \
+
+\f1 --no-demangle
+\f0 \
+Do not demangle low-level symbol names. This is the default. \
+
+\f1 -D
+\f0 \
+
+\f1 --dynamic
+\f0 \
+Display the dynamic symbols rather than the normal symbols. This is only meaningful for dynamic objects, such as certain types of shared libraries. \
+
+\f1 -f 
+\f2\i format
+\f0\i0 \
+
+\f1 --format=
+\f2\i format
+\f0\i0 \
+Use the output format 
+\i format
+\i0 , which can be 
+\f1 bsd
+\f0 , 
+\f1 sysv
+\f0 , or 
+\f1 posix
+\f0 . The default is 
+\f1 bsd
+\f0 . Only the first character of 
+\i format
+\i0  is significant; it can be either upper or lower case. \
+
+\f1 -g
+\f0 \
+
+\f1 --extern-only
+\f0 \
+Display only external symbols. \
+
+\f1 -h
+\f0 \
+
+\f1 --help
+\f0 \
+Show a summary of the options to 
+\f1 nm
+\f0  and exit. \
+
+\f1 -l
+\f0 \
+
+\f1 --line-numbers
+\f0 \
+For each symbol, use debugging information to try to find a filename and line number. For a defined symbol, look for the line number of the address of the symbol. For an undefined symbol, look for the line number of a relocation entry which refers to the symbol. If line number information can be found, print it after the other symbol information. \
+
+\f1 -n
+\f0 \
+
+\f1 -v
+\f0 \
+
+\f1 --numeric-sort
+\f0 \
+Sort symbols numerically by their addresses, rather than alphabetically by their names. \
+
+\f1 -p
+\f0 \
+
+\f1 --no-sort
+\f0 \
+Do not bother to sort the symbols in any order; print them in the order encountered. \
+
+\f1 -P
+\f0 \
+
+\f1 --portability
+\f0 \
+Use the POSIX.2 standard output format instead of the default format. Equivalent to `
+\f1 -f posix
+\f0 '. \
+
+\f1 -r
+\f0 \
+
+\f1 --reverse-sort
+\f0 \
+Reverse the order of the sort (whether numeric or alphabetic); let the last come first. \
+
+\f1 -S
+\f0 \
+
+\f1 --print-size
+\f0 \
+Print both value and size of defined symbols for the 
+\f1 bsd
+\f0  output style. This option has no effect for object formats that do not record symbol sizes, unless `
+\f1 --size-sort
+\f0 ' is also used in which case a calculated size is displayed. \
+
+\f1 -s
+\f0 \
+
+\f1 --print-armap
+\f0 \
+When listing symbols from archive members, include the index: a mapping (stored in the archive by 
+\f1 ar
+\f0  or 
+\f1 ranlib
+\f0 ) of which modules contain definitions for which names. \
+
+\f1 -t 
+\f2\i radix
+\f0\i0 \
+
+\f1 --radix=
+\f2\i radix
+\f0\i0 \
+Use 
+\i radix
+\i0  as the radix for printing the symbol values. It must be `
+\f1 d
+\f0 ' for decimal, `
+\f1 o
+\f0 ' for octal, or `
+\f1 x
+\f0 ' for hexadecimal. \
+
+\f1 -u
+\f0 \
+
+\f1 --undefined-only
+\f0 \
+Display only undefined symbols (those external to each object file). \
+
+\f1 -V
+\f0 \
+
+\f1 --version
+\f0 \
+Show the version number of 
+\f1 nm
+\f0  and exit. \
+
+\f1 -X
+\f0 \
+This option is ignored for compatibility with the AIX version of 
+\f1 nm
+\f0 . It takes one parameter which must be the string 
+\f1 32_64
+\f0 . The default mode of AIX 
+\f1 nm
+\f0  corresponds to 
+\f1 -X 32
+\f0 , which is not supported by gnu 
+\f1 nm
+\f0 . \
+
+\f1 --defined-only
+\f0 \
+Display only defined symbols for each object file. \
+
+\f1 --plugin 
+\f2\i name
+\f0\i0 \
+Load the plugin called 
+\i name
+\i0  to add support for extra target types. This option is only available if the toolchain has been built with plugin support enabled. \
+
+\f1 --size-sort
+\f0 \
+Sort symbols by size. The size is computed as the difference between the value of the symbol and the value of the symbol with the next higher value. If the 
+\f1 bsd
+\f0  output format is used the size of the symbol is printed, rather than the value, and `
+\f1 -S
+\f0 ' must be used in order both size and value to be printed. \
+
+\f1 --special-syms
+\f0 \
+Display symbols which have a target-specific special meaning. These symbols are usually used by the target for some special processing and are not normally helpful when included in the normal symbol lists. For example for ARM targets this option would skip the mapping symbols used to mark transitions between ARM code, THUMB code and data. \
+
+\f1 --synthetic
+\f0 \
+Include synthetic symbols in the output. These are special symbols created by the linker for various purposes. They are not shown by default since they are not part of the binary's original source code. \
+
+\f1 --target=
+\f2\i bfdname
+\f0\i0 \
+Specify an object code format other than your system's default format. See {\field{\*\fldinst{HYPERLINK "https://sourceware.org/binutils/docs/binutils/Target-Selection.html#Target-Selection"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 Target Selection}}, for more information.\
+}
