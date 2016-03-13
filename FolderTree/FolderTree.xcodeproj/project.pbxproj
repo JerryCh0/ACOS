@@ -237,6 +237,7 @@
 				B74DF4C71C9080C000F1DC59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
