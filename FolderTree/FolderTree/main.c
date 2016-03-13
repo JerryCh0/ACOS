@@ -32,6 +32,7 @@ void read_dir(char* dirname) {
     }
     
     while ( (entry = readdir(dir)) != NULL) {
+        
         if (strcmp(entry -> d_name, dot) == 0 || strcmp(entry -> d_name, two_dots) == 0) {
             continue;
         }
@@ -46,26 +47,32 @@ void read_dir(char* dirname) {
                 printf("%s\n", entry -> d_name);
             }
             
-            if ((strcmp(entry -> d_name, dot) != 0) && (strcmp(entry -> d_name, two_dots) != 0) ) {
-                if (strcmp(dirname, slash) == 0) {
-                    tabs++;
-                    read_dir( strcat( dirname, entry -> d_name) );
-                }
-                else{
-                    tabs++;
-                    read_dir( strcat( strcat( dirname, "/"), entry -> d_name) );
-                }
+            if (strcmp(dirname, slash) == 0) {
+                tabs++;
+                read_dir( strcat( dirname, entry -> d_name) );
+            }
+            else{
+                tabs++;
+                read_dir( strcat( strcat( dirname, "/"), entry -> d_name) );
             }
             
         }
     };
     
-    tabs--;
-    int t = 0;
-    while ( strchr( (dirname + strlen(dirname) - t), '/') == 0 ){
-        t++;
+    if (strcmp(dirname, slash) != 0) {
+        tabs--;
+        int t = 0;
+        while ( strchr( (dirname + strlen(dirname) - t), '/') == 0){
+            t++;
+        }
+        if (t == strlen(dirname) - 1) {
+            *(dirname + strlen(dirname) - t + 1) = '\0';
+        }
+        else {
+            *(dirname + strlen(dirname) - t) = '\0';
+        }
     }
-    *(dirname + strlen(dirname) - t) = '\0';
+    
     closedir(dir);
     
 }
