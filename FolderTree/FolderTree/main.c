@@ -13,55 +13,11 @@
 
 
 int dir_flag, tabs;
-const char* etalon = "Logic";
-const char* etalon2 = "MIPT";
-const char* slash = "/";
-const char* null_char = "\0";
 const char* dot = ".";
 const char* two_dots = "..";
+const char* slash = "/";
 
-void read_dir_test(char* dirname) {
-    
-    DIR *dir;
-    struct dirent *entry;
-    
-    dir = opendir(dirname);
-    
-    char* work_name = dirname;
-    
-    if(!dir) {
-        tabs--;
-        perror("diropen");
-        return;
-    }
-    
-    while ( (entry = readdir(dir)) != NULL) {
-        if (entry -> d_type == dir_flag) {
-            
-            for (int i = 0; i < tabs; i++) {
-                printf("-");
-            }
-            
-            printf("%s\n", entry -> d_name);
-            if ( (entry -> d_type == 4) && (strcmp(entry -> d_type, dot))) {
-                tabs++;
-                read_dir_test( strcat( strcat(work_name, "/"), entry -> d_name) );
-            }
-            
-        }
-    };
-    
-    tabs--;
-    int t = 0;
-    while ( strchr( (work_name + strlen(work_name) - t), '/') == 0 ){
-        t++;
-    }
-    *(work_name + strlen(work_name) - t) = '\0';
-    closedir(dir);
-    
-}
-
-//Вывод требуемой директории.
+//Вывод директории.
 void read_dir(char* dirname) {
     
     DIR *dir;
@@ -70,15 +26,46 @@ void read_dir(char* dirname) {
     dir = opendir(dirname);
     
     if(!dir) {
-        perror("diropen");
+        tabs--;
+        //perror("diropen");
         return;
     }
-
+    
     while ( (entry = readdir(dir)) != NULL) {
-        if (entry -> d_type == dir_flag)
-        printf("%s\n", entry -> d_name);
+        if (strcmp(entry -> d_name, dot) == 0 || strcmp(entry -> d_name, two_dots) == 0) {
+            continue;
+        }
+
+        if (entry -> d_type == dir_flag) {
+            
+            for (int i = 0; i < tabs; i++) {
+                printf(" ");
+            }
+            
+            if (strcmp(entry -> d_name, dot) != 0 && strcmp(entry -> d_name, two_dots) != 0) {
+                printf("%s\n", entry -> d_name);
+            }
+            
+            if ((strcmp(entry -> d_name, dot) != 0) && (strcmp(entry -> d_name, two_dots) != 0) ) {
+                if (strcmp(dirname, slash) == 0) {
+                    tabs++;
+                    read_dir( strcat( dirname, entry -> d_name) );
+                }
+                else{
+                    tabs++;
+                    read_dir( strcat( strcat( dirname, "/"), entry -> d_name) );
+                }
+            }
+            
+        }
     };
     
+    tabs--;
+    int t = 0;
+    while ( strchr( (dirname + strlen(dirname) - t), '/') == 0 ){
+        t++;
+    }
+    *(dirname + strlen(dirname) - t) = '\0';
     closedir(dir);
     
 }
@@ -99,5 +86,5 @@ int main() {
     //Обнуляем счетчик отступов.
     tabs = 0;
     
-    read_dir_test(name);
+    read_dir(name);
 }
