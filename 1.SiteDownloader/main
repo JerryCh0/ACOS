@@ -1,0 +1,22 @@
+#!/bin/bash
+
+site_down () {
+
+	mkdir $1_dir
+	cd $1_dir
+	GET $1 > "page_$1_.html"
+	GET $1 > "text_$1_.txt"
+	
+	declare -a STRINGS
+	exec < text_$1_.txt
+	let count=0
+	
+	while read LINE; do
+		STRINGS[$count]=$LINE
+		((count++))
+	done
+
+	echo ${STRINGS[@]}
+}
+
+site_down $1
