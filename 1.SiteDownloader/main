@@ -20,3 +20,5 @@ site_down () {
 }
 
 site_down $1
+
+grep -E -o '"https?:[^"]+"' page_$1_.html | while read line; do echo "$line" >> result.txt; done
