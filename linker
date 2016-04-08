@@ -1,0 +1,7 @@
+$ gсс -fPIC -c ./libfile.c 
+$ ld -shared -soname libfirst.so.1 -o libfirst.so.1.0 ./libfile.o 
+$ sudo cp ./libfirst.so.1.0 /usr/lib/libfirst.so.1.0 
+$ sudo ldconfig -n /usr/lib/ 
+$ sudo ln -s /usr/lib/libfirst.so.1 /usr/lib/libfirst.so 
+$ gcc ./hello.c -lfirst 
+$ ./a.out
