@@ -1,20 +1,21 @@
 #!/bin/bash
 
-site_down () {
+count=0
 
-	mkdir $1_dir
-	cd $1_dir
-	GET $1 > "page_$1_.html"
-	GET $1 > "text_$1_.txt"
+site_down() {
+	count=$(( $count+1 ))
+	dir=$count'_dir'
+	mkdir $dir
+	cd $dir
+	GET $1 > "page_$count.html"
+	GET $1 > "text_$count.txt"
 
-	grep -E -o '"https?:[^"]+"' text_$1_.txt | while read line; do echo "$line" >> result_$1.txt; done
-	
-	cat result_$1.txt | while read line
+	grep -E -o 'https?:[^"]+' text_$count.txt | while read line; do echo $line >> result_$count.txt; done
+
+	cat result_$count.txt | while read line
 	do
- 		site_down $line
+		site_down $line
 	done
 }
 
 site_down $1
-
-
