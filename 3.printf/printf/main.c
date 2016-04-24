@@ -8,7 +8,10 @@ void my_printf(char* s, ...)
 	va_start(L, s);
 	while (*s != '\0')
 	{
-		if (*s != '%') printf("%c", *s);
+        if (*s != '%') {
+            printf("%c", *s);
+            s++;
+        }
 		if (*s == '%') {
 			s++;
 			switch (*s) {
@@ -16,9 +19,13 @@ void my_printf(char* s, ...)
 				printf("%s", va_arg(L, char *));
 				break;
 			case 'd':
-				printf("%d", atoi(va_arg(L, char *)));
+				printf("%d", va_arg(L, int));
 				break;
-			}
+            case 'q':
+                    printf(" ");
+                    char t = va_arg(L, char);
+                    break;
+            }
 			s++;
 		}
 	}
@@ -27,10 +34,14 @@ void my_printf(char* s, ...)
 
 
 
-void main()
+int main()
 {
-	char a[250];
-	int len = 0;
+    char *a;
+    int y;
+    double x;
 	gets(a);
-	my_printf("%d", a);
+    x = 5.0;
+    y = 10;
+	my_printf("%s %q %d", a, x, y);
+    return 0;
 }

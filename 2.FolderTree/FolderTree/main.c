@@ -1,11 +1,3 @@
-//
-//  main.c
-//  FolderTree
-//
-//  Created by Дмитрий Ткаченко on 09/03/16.
-//  Copyright © 2016 Dmitry Tkachenko. All rights reserved.
-//
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <dirent.h>
@@ -51,6 +43,7 @@ void read_dir(char* dirname) {
                 tabs++;
                 read_dir( strcat( dirname, entry -> d_name) );
             }
+            
             else{
                 tabs++;
                 read_dir( strcat( strcat( dirname, "/"), entry -> d_name) );
