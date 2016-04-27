@@ -19,7 +19,7 @@ void read_dir(char* dirname, int max_dirname_len) {
     
     if(!dir) {
         tabs--;
-        //perror("diropen");
+        perror("diropen");
         return;
     }
     
@@ -41,7 +41,7 @@ void read_dir(char* dirname, int max_dirname_len) {
             
             if (strcmp(dirname, slash) == 0) {
                 tabs++;
-                if(strlen(dirname) + strlen(entry->d_name) >= max_dirname_len) {//если path стал слишком длинным, реаллакируем память
+                if(strlen(dirname) + strlen(entry->d_name) >= max_dirname_len) {//если path стал слишком длинным, реаллокируем память
                     char* new_dirname;
                     new_dirname = new char[2 * max_dirname_len];
                     strcpy(new_dirname, dirname);
@@ -55,7 +55,7 @@ void read_dir(char* dirname, int max_dirname_len) {
             
             else{
                 tabs++;
-                if(strlen(dirname) + 1 + strlen(entry->d_name) >= max_dirname_len) {//если path стал слишком длинным, реаллакируем память
+                if(strlen(dirname) + 1 + strlen(entry->d_name) >= max_dirname_len) {//если path стал слишком длинным, реаллокируем память
                     char* new_dirname;
                     new_dirname = new char[2 * max_dirname_len];
                     strcpy(new_dirname, dirname);
@@ -92,7 +92,7 @@ void read_dir(char* dirname, int max_dirname_len) {
 
 int main() {
     
-    //Определяем номер типа директории. На любой системе первая директория - "." и это папка.
+    //Определяем номер типа директории. На любой системе корневая директория - "/" и это папка.
     DIR *dirr;
     struct dirent *en;
     dirr = opendir("/");
@@ -107,4 +107,5 @@ int main() {
     tabs = 0;
     
     read_dir(name, 100);
+    
 }
