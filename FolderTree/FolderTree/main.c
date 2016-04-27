@@ -10,7 +10,7 @@ const char* two_dots = "..";
 const char* slash = "/";
 
 //Вывод директории.
-void read_dir(char* dirname) {
+void read_dir(char* dirname, int max_dirname_len) {
     
     DIR *dir;
     struct dirent *entry;
@@ -28,7 +28,7 @@ void read_dir(char* dirname) {
         if (strcmp(entry -> d_name, dot) == 0 || strcmp(entry -> d_name, two_dots) == 0) {
             continue;
         }
-
+        
         if (entry -> d_type == dir_flag) {
             
             for (int i = 0; i < tabs; i++) {
@@ -41,12 +41,32 @@ void read_dir(char* dirname) {
             
             if (strcmp(dirname, slash) == 0) {
                 tabs++;
-                read_dir( strcat( dirname, entry -> d_name) );
+                if(strlen(dirname) + strlen(entry->d_name) >= max_dirname_len) {//если path стал слишком длинным, реаллакируем память
+                    char* new_dirname;
+                    new_dirname = new char[2 * max_dirname_len];
+                    strcpy(new_dirname, dirname);
+                    strcat(new_dirname, entry -> d_name);
+                    read_dir( new_dirname, 2 * max_dirname_len );
+                }else {
+                    strcat(dirname, entry -> d_name);
+                    read_dir( dirname, max_dirname_len );
+                }
             }
             
             else{
                 tabs++;
-                read_dir( strcat( strcat( dirname, "/"), entry -> d_name) );
+                if(strlen(dirname) + 1 + strlen(entry->d_name) >= max_dirname_len) {//если path стал слишком длинным, реаллакируем память
+                    char* new_dirname;
+                    new_dirname = new char[2 * max_dirname_len];
+                    strcpy(new_dirname, dirname);
+                    strcat(new_dirname, "/");
+                    strcat(new_dirname, entry->d_name);
+                    read_dir( new_dirname, 2 * max_dirname_len );
+                }else {
+                    strcat(dirname, "/");
+                    strcat(dirname, entry->d_name);
+                    read_dir( dirname, max_dirname_len );
+                }
             }
             
         }
@@ -80,11 +100,11 @@ int main() {
     dir_flag = en -> d_type;
     
     //Считываем имя требуемой директории.
-    char name[256];
+    char *name = new char[100];
     scanf("%s", name);
     
     //Обнуляем счетчик отступов.
     tabs = 0;
     
-    read_dir(name);
+    read_dir(name, 100);
 }
