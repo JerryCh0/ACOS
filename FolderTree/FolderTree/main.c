@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-int dir_flag, tabs;
+int tabs;
 const char* dot = ".";
 const char* two_dots = "..";
 const char* slash = "/";
@@ -29,7 +29,7 @@ void read_dir(char* dirname, int max_dirname_len) {
             continue;
         }
         
-        if (entry -> d_type == dir_flag) {
+        if (entry -> d_type == DT_DIR) {
             
             for (int i = 0; i < tabs; i++) {
                 printf(" ");
@@ -43,7 +43,7 @@ void read_dir(char* dirname, int max_dirname_len) {
                 tabs++;
                 if(strlen(dirname) + strlen(entry->d_name) >= max_dirname_len) {//если path стал слишком длинным, реаллокируем память
                     char* new_dirname;
-                    new_dirname = new char[2 * max_dirname_len];
+                    new_dirname = (char*) malloc(2 * sizeof(char) * max_dirname_len);
                     strcpy(new_dirname, dirname);
                     strcat(new_dirname, entry -> d_name);
                     read_dir( new_dirname, 2 * max_dirname_len );
@@ -57,7 +57,7 @@ void read_dir(char* dirname, int max_dirname_len) {
                 tabs++;
                 if(strlen(dirname) + 1 + strlen(entry->d_name) >= max_dirname_len) {//если path стал слишком длинным, реаллокируем память
                     char* new_dirname;
-                    new_dirname = new char[2 * max_dirname_len];
+                    new_dirname = (char*) malloc(2 * sizeof(char) * max_dirname_len);
                     strcpy(new_dirname, dirname);
                     strcat(new_dirname, "/");
                     strcat(new_dirname, entry->d_name);
@@ -92,15 +92,8 @@ void read_dir(char* dirname, int max_dirname_len) {
 
 int main() {
     
-    //Определяем номер типа директории. На любой системе корневая директория - "/" и это папка.
-    DIR *dirr;
-    struct dirent *en;
-    dirr = opendir("/");
-    en = readdir(dirr);
-    dir_flag = en -> d_type;
-    
     //Считываем имя требуемой директории.
-    char *name = new char[100];
+    char *name = (char*) malloc(sizeof(char) * 100);
     scanf("%s", name);
     
     //Обнуляем счетчик отступов.
