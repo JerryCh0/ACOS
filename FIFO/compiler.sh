@@ -1,0 +1,1 @@
+g++ chat_thread_duplex.cpp -Wall -lpthread -o chat
