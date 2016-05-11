@@ -67,6 +67,7 @@ void* PendingData(void* data) {
     //Создаем флаг типа запуска.
     bool is_server = *((bool*)data);
     //Уведомление об ожидании ввода.
+    sleep(1);
     cout << "Ready, pending." << endl;
     //Инициализируем строку, в которую будем получать информацию.
     string str;
