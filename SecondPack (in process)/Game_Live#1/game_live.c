@@ -22,7 +22,8 @@ int ncurses;
 
 // В пустой (мёртвой) клетке, рядом с которой ровно три живые клетки, зарождается жизнь;
 // Если у живой клетки есть две или три живые соседки, то эта клетка продолжает жить;
-// D противном случае (если соседей меньше двух или больше трёх) клетка умирает («от одиночества» или «от перенаселённости»)
+// В противном случае (если соседей меньше двух или больше трёх) клетка умирает («от одиночества» или «от перенаселённости»)
+
 bool getNextState(bool *field, int h, int w, int i, int j) //получает следующее состояние
 {
 	int count = 0;
@@ -75,7 +76,7 @@ sem_t *sem_threads;
 
 bool help = 1;
 
-static void *thread_start(void *arg)
+static void *thread_start(void *arg) //нить_старт
 {
 	int id = (size_t) arg;
 	int i0 = h / number_threads * id;
@@ -287,7 +288,7 @@ int main()
 	srand(time(0));
 	setlocale(LC_ALL, "");
 	
-	int action = 2;
+	int action = 1;
 	if (!action)
 	{
 		printf("Выберете действие:\n");
