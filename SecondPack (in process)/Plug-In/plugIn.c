@@ -44,7 +44,7 @@ int main()
 	//Если символ не найден, то возвращаемым значением dlsym является NULL.
 	
 	//According to the ISO C standard, casting between function
-    //pointers and 'void *', as (sumAB = ( void (*)() ) dlsym(handle, "cos");) produces undefined results.
+    //pointers and 'void *', as (summing = ( void (*)() ) dlsym(handle, "sum");) produces undefined results.
 	if (number == 1)
 		//*(void **) (&summing) = dlsym(handle, "sum");
 		summing = dlsym(handle, "sum");
