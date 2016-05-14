@@ -3,7 +3,6 @@
 #include <dirent.h>
 #include <string.h>
 
-
 int tabs;
 const char* dot = ".";
 const char* two_dots = "..";
@@ -11,6 +10,8 @@ const char* slash = "/";
 
 //Вывод директории.
 void read_dir(char* dirname, int max_dirname_len) {
+    
+    int was_in_link = 1;
     
     DIR *dir;
     struct dirent *entry;
@@ -29,7 +30,21 @@ void read_dir(char* dirname, int max_dirname_len) {
             continue;
         }
         
-        if (entry -> d_type == DT_DIR) {
+        if (entry -> d_type != DT_DIR) {
+            for (int i = 0; i < tabs; i++) {
+                printf(" ");
+            }
+            
+            if (strcmp(entry -> d_name, dot) != 0 && strcmp(entry -> d_name, two_dots) != 0) {
+                printf("%s\n", entry -> d_name);
+            }
+        }
+        
+        if ( ( (entry -> d_type) == DT_DIR )  ) {
+            
+            if ((entry -> d_type) == DT_LNK) {
+                was_in_link = 0;
+            }
             
             for (int i = 0; i < tabs; i++) {
                 printf(" ");
