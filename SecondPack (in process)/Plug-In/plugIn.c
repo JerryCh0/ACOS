@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <dlfcn.h>
 
+typedef void (*function) ();
+
 int main()
 {
     void *handle; //указатель на на начало динамической бибилиотеки
-    void (*summing)(); //объявление указателя на функцию
-    void (*printing)();
+    function summing; //объявление указателя на функцию
+    function printing;
+    //void (*summing)();
+    //void (*printing)();
     char *error;
 
 	printf("Choose plugIn:\n1. Summing A,B\n2. Printing a message\n"); //предлагаем пользователю выбрать плагин
@@ -14,9 +18,9 @@ int main()
 	char* cmd1;
 	scanf("%d", &number);
 	if (number == 1)
-		cmd1 = "libsumAB.so";
+		cmd1 = "./libsumAB.so";
 	if (number == 2)
-		cmd1 = "libprinting.so";
+		cmd1 = "./libprinting.so";
 
 	//dlopen загружает динамическую библиотеку, имя которой указано в строке filename,
 	//и возвращает прямой указатель на начало динамической библиотеки.
@@ -32,6 +36,7 @@ int main()
 
 	// dlerror возвращает NULL, если не возникло ошибок с момента инициализации или его последнего вызова.
 	//Если вызывать dlerror() дважды, то во второй раз результат выполнения всегда будет равен NULL.
+	
 	dlerror(); //Очищаем буфер ошибок, если таковые успели уже возникнуть
 	
 	//dlsym использует указатель на динамическую библиотеку, возвращаемую dlopen, и оканчивающееся нулем символьное имя,
@@ -41,20 +46,22 @@ int main()
 	//According to the ISO C standard, casting between function
     //pointers and 'void *', as (sumAB = ( void (*)() ) dlsym(handle, "cos");) produces undefined results.
 	if (number == 1)
-		*(void **) (&summing) = dlsym(handle, "sum");
+		//*(void **) (&summing) = dlsym(handle, "sum");
+		summing = dlsym(handle, "sum");
 	if (number == 2)
-		*(void **) (&printing) = dlsym(handle, "print");
-		
+		//*(void **) (&printing) = dlsym(handle, "print");
+		printing = dlsym(handle, "print");
    if ((error = dlerror()) != NULL)  {
         fprintf(stderr, "%s\n", error);
         return 1;
     }
 
 	if (number == 1)
-		(*summing)(); //вызываем нашу функцию
+		summing(); //вызываем нашу функцию
+		//(*summing)());
 	if (number == 2)
-		(*printing)();
-		
+		printing();
+		//(*printing)();
    dlclose(handle);
    return 0;
 }
