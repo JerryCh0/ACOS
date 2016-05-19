@@ -1,0 +1,23 @@
+#Choosing compilator
+CC=g++
+#Flags of compilation
+CFLAGS=-c -Wall
+#Linker flags
+LDFLAGS=
+#Sources of code
+SOURCES=main.cpp hello.cpp factorial.cpp
+#Objects
+OBJECTS=$(SOURCES:.cpp=.o)
+#Executable file
+EXECUTABLE=hello
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+clean: hello.o
+	rm -rf *.o 
