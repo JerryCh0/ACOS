@@ -148,7 +148,7 @@ int main(int argc, char** argv)
     bool *first = cur_data->life, *second = cur_data->buf;
     clock_t time_begin_calc, time_end_calc;
     //семафор для пересчитывания доски
-    //semap_end = sem_open(Semaphore_Name, O_CREAT, 0666, 0);
+    semap_end = sem_open(Semaphore_Name, O_CREAT, 0666, 0);
     for (;;)
     {
         if (semap_end == SEM_FAILED)
@@ -175,13 +175,13 @@ int main(int argc, char** argv)
                 sn_data->from_row = left;
                 sn_data->to_row = right;
                 recalc(sn_data);
-                //sem_post(semap_end);
+                sem_post(semap_end);
                 return 0;
             }
         }
         //ждём пока все процессы пересчитают свой кусок доски
         for (int i = 0; i < proc_count; i++)
-            //sem_wait(semap_end);
+            sem_wait(semap_end);
         
         time_end_calc = clock();
 
