@@ -18,13 +18,16 @@
 #include <ncurses.h>
 #include <locale.h>
 
+
+//управление вводом-выводом на терминал
 int ncurses;
 
 // В пустой (мёртвой) клетке, рядом с которой ровно три живые клетки, зарождается жизнь;
 // Если у живой клетки есть две или три живые соседки, то эта клетка продолжает жить;
-// В противном случае (если соседей меньше двух или больше трёх) клетка умирает («от одиночества» или «от перенаселённости»)
+// D противном случае (если соседей меньше двух или больше трёх) клетка умирает («от одиночества» или «от перенаселённости»)
 
-bool getNextState(bool *field, int h, int w, int i, int j) //получает следующее состояние
+//функция получает на вход: текущее поле, размеры поля, координаты. И высчитывает след. положение выбранной ячейки.
+bool getNextState(bool *field, int h, int w, int i, int j)
 {
 	int count = 0;
 	for (int di = -1; di <= 1; ++di)
@@ -38,7 +41,8 @@ bool getNextState(bool *field, int h, int w, int i, int j) //получает с
 	return field[i * w + j] ? (2 <= count && count <= 3) : count == 3;
 }
 
-void step(bool *field, bool *next, int h, int w, int i0, int j0, int i1, int j1) //функция, вызываемая на каждом шаге нашей программы
+//функция, вызываемая на каждом шаге нашей программы, она получает на вход: текущее поле, получаемое поле, размеры поля, координаты изменяемого прямоугольника
+void step(bool *field, bool *next, int h, int w, int i0, int j0, int i1, int j1)
 {
 	for (int i = i0; i <= i1; ++i)
 		for (int j = j0; j <= j1; ++j)
@@ -55,9 +59,9 @@ void free_field(bool *field, int h, int w)//удаляет поле
 	free(field);
 }
 
-bool *generate_field(int h, int w) //создает поле
+bool *generate_field(int h, int w) //создает поле, заполняет его рандомно
 {
-	bool *field = malloc_field(h, w); //инициализируем поле
+	bool *field = malloc_field(h, w); 
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j)
 			field[i * w + j] = rand() % 2;
@@ -66,53 +70,52 @@ bool *generate_field(int h, int w) //создает поле
 
 int number_threads; //количество потоков
 int number_steps; //количество шагов
-int h;
-int w;//размеры поля
-bool *curr; //текущий
-bool *next;//следующий
+int h;//высота
+int w;//ширина
+bool *curr; //текущее поле
+bool *next;//следующее поле
 
-sem_t *sem_managing;
-sem_t *sem_threads; 
+sem_t *sem_managing; //семафор, который ждет, пока закончат работу все потоки, чтобы перейти к следующему шагу 
+sem_t *sem_threads; //семафор для каждого потока
 
-bool help = 1;
-
-static void *thread_start(void *arg) //нить_старт
+//функция получает на вход порядковый номер семафора. Функция запускается для каждого потока. Каждый поток работает на своем прямоугольники  
+static void *thread_start(void *arg)
 {
 	int id = (size_t) arg;
-	int i0 = h / number_threads * id;
+	int i0 = h / number_threads * id; //высчитываем координаты прямоугольника (на котором будет работать поток с номером id).
 	int j0 = 0;
 	int i1 = i0 + h / number_threads - 1;
 	int j1 = w - 1;
 	
-	for (int i = 0; i < number_steps; ++i)
+	for (int i = 0; i < number_steps; ++i) //запускаем изменение определенного прямоугольника на нужное кол-во шагов.
 	{
 		step(curr, next, h, w, i0, j0, i1, j1);
-		sem_post(sem_managing); //освобождение семафора
-		sem_wait(&sem_threads[id]); //захват семафора
+		sem_post(sem_managing); //освобождаем семафор
+		sem_wait(&sem_threads[id]); //захватываем семафор 
 	}
 	return NULL;
 }
 
 void run_live()//если потоков больше одного
 {	
-	sem_init(sem_managing = malloc(sizeof(sem_t)), 1, 0); //инициализирует неименованный семафор
+	sem_init(sem_managing = malloc(sizeof(sem_t)), 1, 0); //функция инициализирует неименованный семафор
 	sem_threads = malloc(number_threads * sizeof(sem_t));//выделяем память под семафоры
 	for (size_t i = 0; i < number_threads; ++i)
 		sem_init(&sem_threads[i], 1, 0); //инициализируем их
 	
-	pthread_t *ids = malloc(number_threads * sizeof(pthread_t)); //инициализируем массив потоков
+	pthread_t *ids = malloc(number_threads * sizeof(pthread_t)); //выделяем память под потоки
 	for (size_t i = 0; i < number_threads; ++i)
-		pthread_create(&ids[i], NULL, &thread_start, (void*) i);//создаем массив потоков
+		pthread_create(&ids[i], NULL, &thread_start, (void*) i);//создаем массив потоков и запускаем их
 	
 	for (int step = 0; step < number_steps; ++step)
 	{
 		for (int number_done = 0; number_done < number_threads; ++number_done)
-			sem_wait(sem_managing); //захват семофора
+			sem_wait(sem_managing); //захватываем семофор
 		bool *temp = curr;//
 		curr = next;//
-		next = temp;// swap(curr, next);
+		next = temp;// получили новое поле, свопаем с текущим
 		
-		for (int i = 0; i < number_threads; ++i)// освобождение всех потоков
+		for (int i = 0; i < number_threads; ++i)// освобождаем семафоры, которые захватывали в thread_start
 			sem_post(&sem_threads[i]);
 	}
 	
@@ -130,12 +133,13 @@ void run_live()//если потоков больше одного
 		endwin();//приостанавливаем сеанс
 }
 
-void one_thread()//если поток один
+
+//аналогично и многопоточной функции, только из-за того, что поток 1 - просто запускаем его на нужное кол-во шагов
+void one_thread()
 {
 	for (int i = 0; i < number_steps; ++i)
 	{
 		step(curr, next, h, w, 0, 0, h - 1, w - 1);
-		// swap(curr, next);
 		bool *temp = curr;
 		curr = next;
 		next = temp;
@@ -143,9 +147,18 @@ void one_thread()//если поток один
 }
 
 typedef void (*func) ();
-long measure(func f) //замеряет время
+long measure(func f) //замеряет время работы определенной функции
 {
+	/*
+	struct timespec {
+		time_t   tv_sec;    секунды 
+		long     tv_nsec;   наносекунды
+	};
+	*/
 	struct timespec tps, tpe;
+	//Функция clock_gettime() получает и устанавливают время указанных часов (первый аргумент), и устанавливает во второй,
+	//если 2 аргумент не равно NULL, сохраняет её в struct timespec, указанную во втором аргументе.
+	//CLOCK_REALTIME - Часы системы, отсчитывающие реальное (т. е., бытовое) время.
 	clock_gettime(CLOCK_REALTIME, &tps);
 	f();
 	clock_gettime(CLOCK_REALTIME, &tpe);
@@ -193,6 +206,7 @@ void copy_field(bool *to, bool *from, int h, int w) //копирует поле
 		to[i] = from[i];
 }
 
+//По сути функция красивого вывода на экран. Также имееет счетчик времени measured_time.
 void test()
 {
 	ncurses = 0;
@@ -204,6 +218,7 @@ void test()
 	int steps_max = 210;
 	int steps_delta = 10;
 	bool *initial = generate_field(h, w); 
+	//ниже идет просто красивый вывод на экран
 	curr = malloc_field(h, w);
 	printf("Поле %dx%d\n", h, w);
 	
@@ -243,7 +258,7 @@ void test()
 	for (int number_threads = 1; number_threads <= 8; ++number_threads)
 	{
 		char name[10];
-		sprintf(name, "plots/%d.txt", number_threads);
+		sprintf(name, "plots/%d.txt", number_threads); //функция производит вывод не на экран, а в массив (первый аргумент)
 		FILE *fout = fopen(name, "w");
 		if (fout == NULL)
 			error(1, errno, "fopen");
@@ -257,7 +272,7 @@ void test()
 	}
 }
 
-void check() //проверяет правильность работы всех функций
+void check() //просто пропроверяет корректрость работы всех функций
 {
 	int h = 840;
 	int w = 1e3;
@@ -288,7 +303,7 @@ int main()
 	srand(time(0));
 	setlocale(LC_ALL, "");
 	
-	int action = 1;
+	int action = 2;
 	if (!action)
 	{
 		printf("Выберете действие:\n");
