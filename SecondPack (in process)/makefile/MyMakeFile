@@ -1,21 +1,19 @@
 # Выбор компилятора
-CC=g++
+CC=gcc
 #Флаги компилятора
 CFLAGS=-c -Wall
 
-all: hello
+all: Plug-In
+	rm -rf *.o ; ./Plug-In
+	
+Plug-In: plugIn.o printing.o sumAB.o
+	$(CC) plugIn.o printing.o sumAB.o -o Plug-In
 
-hello: main.o factorial.o hello.o
-	$(CC) main.o factorial.o hello.o -o hello
+plugIn.o: plugIn.c
+	$(CC) $(CFLAGS) plugIn.c
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) main.cpp
+printing.o: printing.c
+	$(CC) $(CFLAGS) printing.c
 
-factorial.o: factorial.cpp
-	$(CC) $(CFLAGS) factorial.cpp
-
-hello.o: hello.cpp
-	$(CC) $(CFLAGS) hello.cpp
-
-clean:
-	rm -rf *.o hello
+sumAB.o: sumAB.c
+	$(CC) $(CFLAGS) sumAB.c
