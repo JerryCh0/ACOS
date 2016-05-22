@@ -4,16 +4,13 @@ CC=gcc
 CFLAGS=-c -Wall
 
 all: Plug-In
-	rm -rf *.o ; ./Plug-In
+	./Plug-In
 	
 Plug-In: plugIn.o printing.o sumAB.o
 	$(CC) plugIn.o printing.o sumAB.o -o Plug-In
 
-plugIn.o: plugIn.c
-	$(CC) $(CFLAGS) plugIn.c
+*.o: *.c
+	$(CC) $(CFLAGS) *.c
 
-printing.o: printing.c
-	$(CC) $(CFLAGS) printing.c
-
-sumAB.o: sumAB.c
-	$(CC) $(CFLAGS) sumAB.c
+clean: 
+	rm *.o
