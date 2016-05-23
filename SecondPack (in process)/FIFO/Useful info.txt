@@ -1,0 +1,1 @@
+Useful links:http://www.intuit.ru/studies/courses/53/53/lecture/1575?page=3http://agalakov.spb.ru/Shared/Documentation/Programming/IIAS/Os2k/os2000/doc/function/pages/sem_wait.htmhttp://pubs.opengroup.org/onlinepubs/009695399/functions/sem_open.html
