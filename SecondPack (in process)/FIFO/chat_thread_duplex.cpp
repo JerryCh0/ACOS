@@ -92,12 +92,6 @@ void* PendingData(void* data) {
         //Освобождаем семафор FIFO.
         sem_post(fifo_busy);
     }
-
-    /*if (is_server)
-        sem_close(server_can_read);
-    else
-        sem_close(client_can_read);
-    sem_close(fifo_busy);*/
     
     //Закрываем FIFO, возвращем пустое значение.
     close(fin);
@@ -131,12 +125,6 @@ void* UserInput(void* data) {
         //Освобождаем семафор FIFO.
         sem_post(fifo_busy);
     }
-    
-    /*if (is_server)
-        sem_close(client_can_read);
-    else
-        sem_close(server_can_read);
-    sem_close(fifo_busy);*/
     
     //Закрываем FIFO, возвращаем пустое значение.
     close(fout);
